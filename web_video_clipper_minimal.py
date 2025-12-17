@@ -8,23 +8,26 @@ st.set_page_config(page_title="Web Video Clipper", layout="wide")
 # Simulasi login
 if "logged_in" not in st.session_state:
     st.session_state.logged_in = False
+    st.session_state.username = ""  # Tambahkan ini
 
 if not st.session_state.logged_in:
     st.subheader("🔐 Login")
-    username = st.text_input("Username")
-    password = st.text_input("Password", type="password")
+    username_input = st.text_input("Username")
+    password_input = st.text_input("Password", type="password")
     if st.button("Login"):
-        if username == "admin" and password == "1234":
+        if username_input == "admin" and password_input == "1234":
             st.session_state.logged_in = True
+            st.session_state.username = username_input  # Simpan ke session state
             st.success("Login berhasil!")
             st.rerun()
         else:
             st.error("Username atau password salah")
 else:
-    st.sidebar.success(f"Logged in as {username}")
+    st.sidebar.success(f"Logged in as {st.session_state.username}")  # Gunakan dari session state
 
     if st.sidebar.button("Logout"):
         st.session_state.logged_in = False
+        st.session_state.username = ""
         st.rerun()
 
     st.title("🎥 Web Video Clipper")
